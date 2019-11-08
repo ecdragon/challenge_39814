@@ -74,4 +74,13 @@ public class RoadWorkProjectTests {
 		Integer completionMonth = roadWorkProject.findFinishMonth();
 		assertEquals(6, completionMonth, "Completion month should be 6");
 	}
+	
+	@Test
+	public void test_A22Entry_X2() {
+		RoadWorkProject roadWorkProject = new RoadWorkProject();
+		roadWorkProject.setA(Arrays.asList(2, 2));
+		roadWorkProject.setX(2);
+		Integer completionMonth = roadWorkProject.findFinishMonth();
+		assertEquals(-1, completionMonth, "Completion month should be -1, same segment twice, missing segment 1");
+	}
 }
