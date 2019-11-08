@@ -4,7 +4,6 @@ import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,12 +74,6 @@ public class RoadWorkProject {
 	private Integer x;
 	
 	/**
-	 * This has an entry for each segment that needs to be completed. 
-	 * Each segment is to be removed from this set until it's empty, which represents when the project is done
-	 */
-	private TreeSet<Integer> segmentCheckSet;
-	
-	/**
 	 * This has an entry for each completed segment
 	 * Once the size of this set is X, we're done
 	 */
@@ -105,15 +98,10 @@ public class RoadWorkProject {
 			return null;
 		}
 		
-		// Initialize Segment check set with one entry for each segment from 1 to X
-//		logger.debug(methodLabel + "Initializing segment check set");
-//		initializeSegmentCheckSet();
-		
 		// Store a completion month, to be populated only if we complete the project
 		Integer completionMonth = -1;
 		
 		// Iterate over a array. 
-//		for (Integer aEntry : a) {
 		logger.debug(methodLabel + "Iterating over a list");
 		for (int i = 0; i < a.size(); i++) {
 			
@@ -132,17 +120,15 @@ public class RoadWorkProject {
 				return null;
 			}
 			
-			// Remove this month's segment from the segment check set
-//			segmentCheckSet.remove(aEntry);
-			
 			// Add this month's segment to the completed set
 			segmentsCompletedSet.add(aEntry);
 			
 			// If the check set is empty, we are done
-//			if (segmentCheckSet.size() == 0) {
-			if (segmentsCompletedSet.size() == x) {
+			//   ... but we will iterate through the rest of A, validating that values are in-bounds
+			//   ... but if we didn't care we could just break here
+			if (completionMonth == -1 && segmentsCompletedSet.size() == x) {
 				completionMonth = i;
-				break;
+				// break;
 			}
 		}
 		
@@ -151,12 +137,6 @@ public class RoadWorkProject {
 		return completionMonth;
 	}
 	
-	public void initializeSegmentCheckSet() {
-		for (int i = 1; i <= x; i++) {
-			addSegmentToSegmentCheckSet(i);
-		}
-	}
-
 	public void appendToA(Integer segmentToAdd) {
 		if (this.a == null) {
 			a = new ArrayList<>();
@@ -174,21 +154,6 @@ public class RoadWorkProject {
 	}
 	public void setX(Integer x) {
 		this.x = x;
-	}
-	public void addSegmentToSegmentCheckSet(Integer segmentToAdd) {
-		if (segmentToAdd == null) {
-			return;
-		}
-		if (segmentCheckSet == null) {
-			segmentCheckSet = new TreeSet<>();
-		}
-		segmentCheckSet.add(segmentToAdd);
-	}
-	public TreeSet<Integer> getSegmentCheckSet() {
-		return segmentCheckSet;
-	}
-	public void setSegmentCheckSet(TreeSet<Integer> segmentCheckSet) {
-		this.segmentCheckSet = segmentCheckSet;
 	}
 	public HashSet<Integer> getSegmentsCompletedSet() {
 		return segmentsCompletedSet;

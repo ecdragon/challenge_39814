@@ -92,4 +92,13 @@ public class RoadWorkProjectTests {
 		Integer completionMonth = roadWorkProject.findFinishMonth();
 		assertNull(completionMonth, "Completion month should be null, one out of bounds segment");
 	}
+	
+	@Test
+	public void test_A1234Entry_X3() {
+		RoadWorkProject roadWorkProject = new RoadWorkProject();
+		roadWorkProject.setA(Arrays.asList(1, 2, 3, 4));
+		roadWorkProject.setX(3);
+		Integer completionMonth = roadWorkProject.findFinishMonth();
+		assertNull(completionMonth, "Completion month should be null, one out of bounds segment");
+	}
 }
