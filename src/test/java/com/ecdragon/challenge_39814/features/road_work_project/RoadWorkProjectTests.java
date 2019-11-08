@@ -63,7 +63,7 @@ public class RoadWorkProjectTests {
 		roadWorkProject.appendToA(4);
 		roadWorkProject.setX(1);
 		Integer completionMonth = roadWorkProject.findFinishMonth();
-		assertEquals(-1, completionMonth, "Completion month should be -1, A 4, X 1");
+		assertNull(completionMonth, "Completion month should be null, since A entry is invalid - A 4, X 1");
 	}
 	
 	@Test

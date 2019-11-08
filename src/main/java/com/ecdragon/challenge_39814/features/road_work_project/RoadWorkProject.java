@@ -2,6 +2,7 @@ package com.ecdragon.challenge_39814.features.road_work_project;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -80,6 +81,12 @@ public class RoadWorkProject {
 	private TreeSet<Integer> segmentCheckSet;
 	
 	/**
+	 * This has an entry for each completed segment
+	 * Once the size of this set is X, we're done
+	 */
+	private HashSet<Integer> segmentsCompletedSet = new HashSet<>();
+	
+	/**
 	 * What if we made a set that represented the segments left to do,
 	 * and removed them one at a time, iterating through A.
 	 * After each iteration, check the set to see if any are left. 
@@ -99,8 +106,8 @@ public class RoadWorkProject {
 		}
 		
 		// Initialize Segment check set with one entry for each segment from 1 to X
-		logger.debug(methodLabel + "Initializing segment check set");
-		initializeSegmentCheckSet();
+//		logger.debug(methodLabel + "Initializing segment check set");
+//		initializeSegmentCheckSet();
 		
 		// Store a completion month, to be populated only if we complete the project
 		Integer completionMonth = -1;
@@ -112,11 +119,28 @@ public class RoadWorkProject {
 			
 			Integer aEntry = a.get(i);
 			
+			// Check bounds
+			if (aEntry == null) {
+				continue;
+			}
+			if (aEntry < 1) {
+				logger.error(methodLabel + "Invalid A entry found - segment less than 1");
+				return null;
+			}
+			if (aEntry > x) {
+				logger.error(methodLabel + "Invalid A entry found - segment greater than X");
+				return null;
+			}
+			
 			// Remove this month's segment from the segment check set
-			segmentCheckSet.remove(aEntry);
+//			segmentCheckSet.remove(aEntry);
+			
+			// Add this month's segment to the completed set
+			segmentsCompletedSet.add(aEntry);
 			
 			// If the check set is empty, we are done
-			if (segmentCheckSet.size() == 0) {
+//			if (segmentCheckSet.size() == 0) {
+			if (segmentsCompletedSet.size() == x) {
 				completionMonth = i;
 				break;
 			}
@@ -165,5 +189,11 @@ public class RoadWorkProject {
 	}
 	public void setSegmentCheckSet(TreeSet<Integer> segmentCheckSet) {
 		this.segmentCheckSet = segmentCheckSet;
+	}
+	public HashSet<Integer> getSegmentsCompletedSet() {
+		return segmentsCompletedSet;
+	}
+	public void setSegmentsCompletedSet(HashSet<Integer> segmentsCompletedSet) {
+		this.segmentsCompletedSet = segmentsCompletedSet;
 	}
 }
